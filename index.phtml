@@ -2,7 +2,7 @@
 
 require_once "connection.php";
 
-$pdo = getConnection();
+$pdo = Database::getConnection();
 $stmt = $pdo->prepare("SELECT * FROM textareas");
 $stmt->execute();
 $textAreas = $stmt->fetchAll(\PDO::FETCH_ASSOC);

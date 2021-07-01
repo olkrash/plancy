@@ -9,7 +9,7 @@ if (!isset($_SESSION['id'])) {
     exit();
 }
 
-$pdo = getConnection();
+$pdo = Database::getConnection();
 
 if (isset($_POST['1'])) {
     foreach ($_POST as $id => $text) {

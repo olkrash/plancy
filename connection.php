@@ -12,18 +12,29 @@ function getConfig(): array
     ];
 }
 
-function getConnection(): \PDO
+class Database
 {
-    $config = getConfig();
-    $options = [
-        \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION,
-    ];
-    $dsn = "mysql:host={$config['db_host']};dbname={$config['db_database']};charset={$config['db_charset']};port={$config['db_port']}";
-    try {
-        $pdo = new \PDO($dsn, $config['db_user'], $config['db_password'], $options);
-    } catch (\PDOException $e) {
-        throw new \PDOException($e->getMessage(), (int)$e->getCode());
-    }
+    private static PDO $connection;
 
-    return $pdo;
+    private function __construct(){}
+
+    public static function getConnection(): PDO
+    {
+        if (isset(self::$connection)) {
+            return self::$connection;
+        }
+
+        $config = getConfig();
+        $options = [
+            \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION,
+        ];
+        $dsn = "mysql:host={$config['db_host']};dbname={$config['db_database']};charset={$config['db_charset']};port={$config['db_port']}";
+        try {
+            self::$connection = new \PDO($dsn, $config['db_user'], $config['db_password'], $options);
+        } catch (\PDOException $e) {
+            throw new \PDOException($e->getMessage(), (int)$e->getCode());
+        }
+
+        return self::$connection;
+    }
 }

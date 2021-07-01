@@ -5,7 +5,7 @@ require_once "../connection.php";
 
 $error = "";
 if (isset($_POST['login'])) {
-    $pdo = getConnection();
+    $pdo =  Database::getConnection();
     $stmt = $pdo->prepare("SELECT id FROM users WHERE login=? AND password=? LIMIT 1");
     $stmt->execute([$_POST['login'], sha1($_POST['password'])]);
     $user = $stmt->fetch();
